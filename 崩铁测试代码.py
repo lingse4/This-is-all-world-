@@ -8,8 +8,8 @@ import os
 
 # 提取常量
 APP_PATH = r"D:\XUNLEI\March7thAssistant_v2024.12.18_full\March7thAssistant_v2024.12.18_full\March7th Launcher.exe"
-IMAGE_PATH_BUTTON = "L308, T1004, R700, B1324"
-IMAGE_PATH_DONE = r"C:\Users\38384\Desktop\matutiyabafue\btowari.png"
+IMAGE_PATH_BUTTON = "L308, T1004, R1000, B1324"
+IMAGE_PATH_DONE = r"C:\Users\38384\Desktop\抹茶巴菲\屏幕截图 2025-03-22 222415.png"
 WINDOW_TITLE = "March7th Assistant"
 
 
