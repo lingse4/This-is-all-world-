@@ -15,6 +15,7 @@ def switch_to_english_input():
         win32api.SendMessage(hwnd, win32con.WM_INPUTLANGCHANGEREQUEST, 0, HKL_ENGLISH)
     except Exception as e:
         print(f"切换输入法失败: {e}")
+    
     finally:
         time.sleep(2)  # 增加延迟确保切换完成
 
@@ -24,6 +25,7 @@ def open_notepad_and_paste(text_to_paste):
         # 打开记事本
         pyautogui.hotkey("win", "r")
         time.sleep(2)
+
         pyautogui.write("notepad")
         time.sleep(4)
         pyautogui.press("enter")
