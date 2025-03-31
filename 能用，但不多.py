@@ -6,6 +6,7 @@ import sys
 import ctypes
 from pywinauto import Application, Desktop
 import numpy as np
+import subprocess
 
 # 常量定义
 APP_PATH = r"D:\XUNLEI\March7thAssistant_v2024.12.18_full\March7thAssistant_v2024.12.18_full\March7th Launcher.exe"
@@ -32,7 +33,7 @@ def bring_window_to_front(window_title):
             ctypes.windll.user32.ShowWindow(hwnd, 9)  # SW_RESTORE = 9
         # 置顶窗口
         ctypes.windll.user32.SetForegroundWindow(hwnd)
-        time.sleep(0.5)  # 等待窗口激活
+        time.sleep(1)  # 等待窗口激活
     else:
         print(f"警告：未找到窗口 '{window_title}'")
 
@@ -147,7 +148,7 @@ def main_operation():
 
         # 等待任务完成
         print("等待第一个任务完成...")
-        timeout = 999999  # 10分钟超时
+        timeout = 999999  # 99999分钟超时
         start_time = time.time()
         while time.time() - start_time < timeout:
             if get_xy(IMAGE_PATH_DONE, threshold=0.01):
@@ -156,6 +157,8 @@ def main_operation():
             time.sleep(10)
         else:
             raise TimeoutError("第一个任务等待超时")
+
+        subptocess.run(["ttaskkill /IM StarRail.exe /F"],shell=True)
 
         # 启动第二个应用
         start_application(SECOND_APP_PATH)
@@ -181,6 +184,8 @@ def main_operation():
     except Exception as e:
         print(f"操作异常终止：{str(e)}")
         sys.exit(1)
+
+    subprocess.run(["ttaskkill /IM YuanShen.exe /F"],shell=Turn)
 
 if __name__ == "__main__":
     run_as_admin()
