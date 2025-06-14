@@ -1,0 +1,10 @@
+{
+  "Configurations": {
+    "Default": {}
+  },
+  "Current": "Default",
+  "Global": {
+    "GUI.CustomCulture": "",
+    "GUI.Localization": "zh-cn"
+  }
+}

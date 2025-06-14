@@ -4,37 +4,52 @@ import win32con
 import time
 import pyautogui
 from pywinauto.application import Application
+import subprocess
 
 
-def switch_to_english_input():
-    """切换输入法为英文（美式键盘）"""
-    HKL_ENGLISH = 0x04090409
-    hwnd = win32gui.GetForegroundWindow()
-    try:
-        result = win32api.SendMessage(
-            hwnd,
-            win32con.WM_INPUTLANGCHANGEREQUEST,
-            0,
-            HKL_ENGLISH
-        )
-        if result == 0:
-            print("输入法切换成功")
-        else:
-            print("输入法切换失败")
-    except Exception as e:
-        print(f"输入法切换时发生错误: {e}")
-    time.sleep(1)  # 增加延迟确保切换完成
+def switch_to_english_input(max_retries=3):
+    """通过模拟按键切换系统输入法，按下 Shift 键切换"""
+    retries = 0
+
+    while retries < max_retries:
+        try:
+            # 模拟按下 Shift 键切换输入法
+            pyautogui.press("shift")
+            time.sleep(1)  # 增加延迟确保切换完成
+
+            # 检查是否切换成功
+            if is_english_input_active():
+                print("系统输入法切换成功")
+                return
+            else:
+                print(f"系统输入法切换失败，重试中...（第 {retries + 1} 次）")
+        except Exception as e:
+            print(f"切换系统输入法时发生错误: {e}")
+
+        retries += 1
+
+    print("多次尝试后系统输入法仍未切换为英文，请手动切换")
 
 
 def is_english_input_active():
     """检查当前输入法是否为英文"""
-    hwnd = win32gui.GetForegroundWindow()
     try:
-        current_hkl = win32api.SendMessage(hwnd, win32con.WM_GETCURRENTINPUTLANGUAGE, 0, 0)
-        return current_hkl == 0x04090409
+        current_hkl = win32api.GetKeyboardLayout(0)  # 获取当前线程的输入法句柄
+        return current_hkl == 0x04090409  # 检查是否为英文（美式键盘）
     except Exception as e:
         print(f"检查输入法时发生错误: {e}")
         return False
+
+
+def switch_to_english_halfwidth():
+    """通过模拟按键切换到英文半角模式"""
+    try:
+        # 模拟按下 Shift 键切换到英文半角模式
+        pyautogui.press("shift")
+        time.sleep(1)  # 增加延迟确保切换完成
+        print("已尝试切换到英文半角模式")
+    except Exception as e:
+        print(f"切换到英文半角模式时发生错误: {e}")
 
 
 def open_notepad_and_type():
@@ -63,16 +78,17 @@ def open_notepad_and_type():
             click_x, click_y = screen_width // 2, screen_height // 2
             pyautogui.click(x=click_x, y=click_y)
 
-        # 切换输入法
-        switch_to_english_input()
-        if not is_english_input_active():
-            print("输入法未切换为英文，请手动切换")
-            return
+        # 切换到英文半角模式
+        print("切换到英文半角模式")
+        switch_to_english_halfwidth()
 
         # 显式降低输入速度并输入完整字符串
-        pyautogui.write("𰻝𰻝面", interval=0.1)
+        print("开始输入文字")
+        pyautogui.write("423", interval=0.1)
     except Exception as e:
         print(f"打开记事本并输入文本时发生错误: {e}")
+        import traceback
+        traceback.print_exc()
 
 
 if __name__ == "__main__":

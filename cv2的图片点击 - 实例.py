@@ -60,6 +60,7 @@ def auto_click(var_avg):
     """
     if var_avg:
         pyautogui.click(var_avg[0], var_avg[1], button='left')
+        time.sleep(2)
     else:
         print("未检测到目标，无法点击")
 
@@ -72,3 +73,8 @@ def routine(img_model_path, name, threshold=0.8):
             return
         else:
             print(f"未检测到 {name}，继续检测...")
+            time.sleep(1)
+
+run_as_admin()
+routine(r"C:\Users\38384\Pictures\Screenshots\fs.png", "荒芜拉普兰德", threshold=0.85)
+msvcrt.getch()  # 等待用户按键
